@@ -1,0 +1,22 @@
+class Solution {
+    int new1;
+    public boolean isPalindrome(int x) {
+        if(x < 0){
+            return false;
+        }
+        else{
+            int x_mod = x;
+            for (int i = 0;i<Integer.toString(x).length();i++){
+                int new_x = x_mod%10;
+                x_mod = x_mod/10;
+                new1 = new1*10 + new_x;
+            }
+            if(new1 == x){
+                return true;
+            }
+            else{
+                return false;
+            }
+            }
+        }
+}
