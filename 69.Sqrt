@@ -1,0 +1,13 @@
+class Solution {
+    public int mySqrt(int x) { 
+        double t;
+        double squareroot = x / 2;
+        do 
+        {
+            t = squareroot;
+            squareroot = (t + (x / t)) / 2;
+        }
+        while ((t - squareroot) != 0);
+        return (int)squareroot;
+    }
+}
