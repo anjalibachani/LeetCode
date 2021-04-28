@@ -1,0 +1,19 @@
+136. Single Number
+class Solution {
+    public int singleNumber(int[] nums) {
+        List<Integer> dup = new ArrayList<>();
+        for(int i : nums){
+            if(!dup.contains(i)){
+                dup.add(i);
+            }
+            else{
+                dup.remove(new Integer (i));
+            }
+        }
+        return dup.get(0);
+    }
+}
+
+//[4,1,2,1,2]
+//[1,1,2,4]
+
