@@ -1,3 +1,4 @@
 prinf("hello");
 new
 new
+new
