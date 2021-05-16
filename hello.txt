@@ -2,4 +2,3 @@ prinf("hello");
 new
 new
 new
-new
