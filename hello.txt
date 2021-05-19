@@ -1,4 +1,1 @@
 prinf("hello");
-gfhg
-jhtyu
-uyuiyi
