@@ -1,4 +1,3 @@
 prinf("hello");
 nkn,
 jhjkjb
-nbnmb
