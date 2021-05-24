@@ -1,4 +1,1 @@
 prinf("hello");
-code
-code
-code
