@@ -1,4 +1,1 @@
 prinf("hello");
-sdcs
-dcsc
-csdc
