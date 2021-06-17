@@ -1,1 +1,1 @@
-fffreprinf("hello");
+prinf("hello");
