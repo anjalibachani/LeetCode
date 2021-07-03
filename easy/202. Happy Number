@@ -1,0 +1,26 @@
+202. Happy Number
+class Solution {
+    public boolean isHappy(int n) {
+        HashSet<Integer> h = new HashSet<Integer>();
+        while(h.add(n)){
+            int sum = 0;
+            while(n > 0){
+                int a = n%10;
+                sum += a*a;
+                n = n/10;
+                System.out.println(sum);
+            }
+            if(sum == 1){
+                return true;
+            }
+            else{
+                n = sum;
+            }
+        }
+        // System.out.println(a);
+        // System.out.println(b);
+        return false;
+    }
+}
+
+can do slow/fast
