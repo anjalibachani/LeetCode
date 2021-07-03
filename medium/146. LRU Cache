@@ -1,0 +1,93 @@
+146. LRU Cache
+import java.util.Hashtable;
+public class LRUCache {
+    class DoublyList {
+        int key;
+        int value;
+        DoublyList pre;
+        DoublyList post;
+    }
+    private void AddNode(DoublyList node){
+        node.pre = head;
+        node.post = head.post;
+        head.post.pre = node;
+        head.post = node;
+    }
+
+    private void DeleteNode(DoublyList node){
+        DoublyList pre = node.pre;
+        DoublyList post = node.post;
+        post.pre = pre;
+        pre.post = post;
+    }
+    private void MoveToHead(DoublyList node){
+        this.DeleteNode(node);
+        this.AddNode(node);
+    }
+    private DoublyList popTail(){
+        DoublyList ta = tail.pre;
+        this.DeleteNode(ta);
+        return ta;
+    }
+    private Hashtable<Integer, DoublyList> cache = new Hashtable<Integer, DoublyList>();
+    private int capacity;
+    private int count;
+    private DoublyList head, tail;
+    
+    public LRUCache(int capacity) {
+        this.count = 0;
+        this.capacity = capacity;
+        
+        head = new DoublyList();
+        tail = new DoublyList();
+        
+        head.pre = null;
+        head.post = tail;
+        tail.pre = head;
+        tail.post = null;
+    }
+    
+    public int get(int key) {
+        DoublyList node = cache.get(key);
+        if(node == null){
+            return -1;
+        }
+        this.MoveToHead(node);
+        return node.value;
+    }
+    
+//    
+    public void put(int key, int value) {
+        DoublyList node = cache.get(key);
+        
+        if(node == null){
+            DoublyList newnode = new DoublyList();
+            newnode.key = key;
+            newnode.value = value;
+            this.cache.put(key, newnode);
+            this.AddNode(newnode);
+        
+            ++count;
+        
+            if(count > capacity){
+             DoublyList tail = this.popTail();
+             this.cache.remove(tail.key);
+             --count;
+        }
+        }
+        else{
+            node.value = value;
+            this.MoveToHead(node);
+        }
+        }
+    }
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
+
+
+
