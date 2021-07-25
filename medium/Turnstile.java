@@ -22,22 +22,22 @@ public class Turnstile {
             int peekEnterTime = time[enters.peek()];
             int peekExitTime = time[exits.peek()];
             Queue<Integer> q;
-            if (currentTime < peekEnterTime && currentTime < peekExitTime) {
+            if (currentTime < peekEnterTime && currentTime < peekExitTime) {  // case 1: when no one has used the turnstile in the last sec. 
                 // The turnstile was not used
                 // Take whoever has the earliest time or
                 // if enter == exit, take exit
-                q = (peekEnterTime < peekExitTime) ? enters : exits;
+                q = (peekEnterTime < peekExitTime) ? enters : exits;   // either person with less time goes first or if same time then exit goes first
                 int personIdx = q.poll();
                 result[personIdx] = time[personIdx];
                 lastTime = time[personIdx]; // time
                 lastQ = q;
-            } else {
+            } else {                        // case 2 and 3: when turnstile has been used in the last sec
                 // Turnstile was used last second
-                if (currentTime >= peekEnterTime && currentTime >= peekExitTime) {
+                if (currentTime >= peekEnterTime && currentTime >= peekExitTime) {      //  case 2: turnstile used, people waiting on both side of entry and exit so choose exit at same time
                     // Have people waiting at both ends
                     // Prioritize last direction
                     q = lastQ;
-                } else {
+                } else {                                                                // case 3: turnstile used, but only one person waiting to enter or exit
                     // current >= enters.peek() || current >= exits.peek()
                     q = currentTime >= peekEnterTime ? enters : exits; // take whatever that's queuing
                 }
@@ -48,7 +48,7 @@ public class Turnstile {
             }
         }
 
-        Queue<Integer> q = enters.size() > 0 ? enters : exits;
+        Queue<Integer> q = enters.size() > 0 ? enters : exits; // so we dont check for rest of the elements and just add them to the result.
         while(q.size() > 0) {
             int currentTime = lastTime + 1;
             int personIdx = q.poll();
