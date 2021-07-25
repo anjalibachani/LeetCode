@@ -1,1 +1,1 @@
-hjkprinf("hello");gjh
+prinf("hello");gjh
