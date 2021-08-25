@@ -1,0 +1,70 @@
+1041. Robot Bounded In Circle
+class Solution {
+    char direction = 'N';
+    int x = 0;
+    int y = 0;
+    public boolean isRobotBounded(String instructions) {
+        for(char inst : instructions.toCharArray()){
+            System.out.println("x = " + x + " y = " + y + " dir = " + direction + " inst = " + inst);
+            if(inst == 'G'){
+                if(direction == 'N'){
+                    y++;
+                }
+                if(direction == 'S'){
+                    y--;
+                }
+                if(direction == 'E'){
+                    x++;
+                }
+                if(direction == 'W'){
+                    x--;
+                }
+            }
+            if(inst == 'L'){
+                if(direction == 'N'){
+                    direction = 'W';
+                }
+                else if(direction == 'W'){
+                    direction = 'S';
+                }
+                else if(direction == 'S'){
+                    direction = 'E';
+                }
+                else if(direction == 'E'){
+                    direction = 'N';
+                }
+            }
+            if(inst == 'R'){
+                if(direction == 'N'){
+                    direction = 'E';
+                }
+                else if(direction == 'E'){
+                    direction = 'S';
+                }
+                else if(direction == 'S'){
+                    direction = 'W';
+                }
+                else if(direction == 'W'){
+                    direction = 'N';
+                }
+                //System.out.println("new direction = " + direction);
+            }
+        // System.out.println(+x);
+        // System.out.println(+y);
+        // System.out.println(direction);
+        }
+        // if(x == 0 && y == 0){
+        //     return true;
+        // }
+        // else{
+        //     return false;
+        // }
+        //System.out.println(x == 0 && y == 0 || direction != 'N');
+        return x == 0 && y == 0 || direction != 'N';
+        //     //return true;
+        // }
+        // else{
+        //     isRobotBounded(String instructions);
+        //     return false;
+        }
+}
