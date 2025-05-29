@@ -1,0 +1,23 @@
+class Solution {
+    int rev_x;
+    public boolean isPalindrome(int x) {
+        if(x < 0){
+            return false;
+        }
+        int new_x = x;
+        for(int j = 0; j < Integer.toString(x).length(); j++)
+        {
+            //check even number
+            int i = new_x%10;
+            new_x = new_x/10;
+            rev_x = rev_x*10 + i;
+        }
+        if(x == rev_x){
+            return true;
+        }
+        else {
+            return false;
+        }
+        
+    }
+}
