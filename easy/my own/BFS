@@ -1,0 +1,84 @@
+Q1
+public static boolean canAllServicesTalkToEachOther(String[][] allPairs) {
+    Map<String, List<String>> serviceConnections = new HashMap<>();
+  
+    // build the graph
+    for (String[] pair: allPairs) {
+        String left = pair[0];
+        String right = pair[1];
+        serviceConnections.computeIfAbsent(left, x -> new LinkedList<>()).add(right);
+        serviceConnections.computeIfAbsent(right, x -> new LinkedList<>()).add(left);
+    }
+  
+    Set<String> services = serviceConnections.keySet();
+  
+    // Check for empty list of services
+    if (services.isEmpty()) return true;
+  
+    // Starting from an arbitrary service, do a BFS to see if all nodes are eventually reached
+    String startingPoint = allPairs[0][0];
+   
+    Queue<String> queue = new LinkedList<>();
+    Set<String> visited = new HashSet<>();
+   
+    queue.add(startingPoint);
+    visited.add(startingPoint);
+  
+    while (!queue.isEmpty()) {
+        String service = queue.poll();
+        for (String nextService: serviceConnections.get(service)) {
+            if (!visited.contains(nextService)) {
+                visited.add(nextService);
+                queue.add(nextService);
+            }
+        }
+    }
+    return visited.equals(services);
+}  
+
+
+
+
+
+Q2
+public static String[][] getNecessaryConnections(String[][] allPairs) {
+    // sanity check
+    if (!canAllServicesTalkToEachOther(allPairs)) {
+        return new String[][]{};
+    }
+ 
+    Map<String, List<String>> serviceConnections = new HashMap<>();
+  
+    // build the graph
+    for (String[] pair: allPairs) {
+        String left = pair[0];
+        String right = pair[1];
+        serviceConnections.computeIfAbsent(left, x -> new LinkedList<>()).add(right);
+        serviceConnections.computeIfAbsent(right, x -> new LinkedList<>()).add(left);
+    }
+  
+    // Check for empty list of services
+    if (serviceConnections.keySet().isEmpty()) return new String[][]{};
+  
+    // Starting from an arbitrary service, do a BFS to see if all nodes are eventually reached
+    String startingPoint = allPairs[0][0];
+  
+    Queue<String> queue = new LinkedList<>();
+    Set<String> visited = new HashSet<>();
+    List<String[]> necessaryConnections = new LinkedList<>();
+        
+    queue.add(startingPoint);
+    visited.add(startingPoint);
+  
+    while (!queue.isEmpty()) {
+        String service = queue.poll();
+        for (String nextService: serviceConnections.get(service)) {
+            if (!visited.contains(nextService)) {
+                visited.add(nextService);
+                queue.add(nextService);
+                necessaryConnections.add(new String[]{service, nextService});
+            }
+        }
+    }
+    return necessaryConnections.toArray(new String[0][0]);
+}

@@ -1,0 +1,138 @@
+public class ServiceConnectivityCheckerBFS {
+
+    public static boolean canAllServicesReachEachOther(String[][] rules) {
+        if (rules == null || rules.length == 0) {
+            return true;
+        }
+        
+        Map<String, List<String>> graph = buildServiceGraph(rules);
+        
+        if (graph.size() <= 1) {
+            return true;
+        }
+        
+        Set<String> visited = new HashSet<>();
+        String start = rules[0][0];
+        bfs(graph, start, visited);
+        
+        return visited.size() == graph.size();
+    }
+
+    private static Map<String, List<String>> buildServiceGraph(String[][] rules) {
+        Map<String, List<String>> graph = new HashMap<>();
+        
+        for (String[] rule : rules) {
+            String a = rule[0], b = rule[1];
+            
+            List<String> neighborsA = graph.getOrDefault(a, new LinkedList<>());
+            neighborsA.add(b);
+            graph.put(a, neighborsA);
+            
+            List<String> neighborsB = graph.getOrDefault(b, new LinkedList<>());
+            neighborsB.add(a);
+            graph.put(b, neighborsB);
+        }
+        
+        return graph;
+    }
+    
+    private static void bfs(Map<String, List<String>> graph, String start, Set<String> visited) {
+        Queue<String> queue = new LinkedList<>();
+        queue.add(start);
+        visited.add(start);
+        
+        while (!queue.isEmpty()) {
+            String current = queue.poll();
+            List<String> neighbors = graph.get(current);
+            
+            if (neighbors != null) {
+                for (String neighbor : neighbors) {
+                    if (!visited.contains(neighbor)) {
+                        visited.add(neighbor);
+                        queue.add(neighbor);
+                    }
+                }
+            }
+        }
+    }
+
+    Part 2
+    
+    public static String[][] getNecessaryConnections(String[][] allPairs) {
+
+        if (!canAllServicesReachEachOther(allPairs)) {
+            return new String[][]{};
+        }
+     
+        Map<String, List<String>> serviceConnections = buildServiceGraph(allPairs);
+        String startingPoint = allPairs[0][0];
+        Queue<String> queue = new LinkedList<>();
+        Set<String> visited = new HashSet<>();
+        List<String[]> necessaryConnections = new LinkedList<>();
+            
+        queue.add(startingPoint);
+        visited.add(startingPoint);
+      
+        while (!queue.isEmpty()) {
+            String service = queue.poll();
+            for (String nextService: serviceConnections.get(service)) {
+                if (!visited.contains(nextService)) {
+                    visited.add(nextService);
+                    queue.add(nextService);
+                    necessaryConnections.add(new String[]{service, nextService});
+                }
+            }
+        }
+        return necessaryConnections.toArray(new String[0][0]);
+    }
+
+    public static void main(String[] args) {
+        System.out.println("=== TEST CASE 1: Simple Graph ===");
+        testPart1();
+        testPart2();
+        
+        System.out.println("\n=== TEST CASE 2: Complex Graph ===");
+        testComplexGraph();
+    }
+
+    public static void testPart1() {
+        String[][] rules = {
+            {"BoxSign", "Monolith"},
+            {"Conversion", "BoxSign"},
+            {"Conversion", "Monolith"}
+        };
+        System.out.println("PART 1 - All services connected: " + canAllServicesReachEachOther(rules));
+    }
+
+    public static void testPart2() {
+        String[][] rules = {
+            {"BoxSign", "Monolith"},
+            {"Conversion", "BoxSign"},
+            {"Conversion", "Monolith"}
+        };
+        String[][] necessary = getNecessaryConnections(rules);
+        System.out.println("PART 2 - Necessary connections (" + necessary.length + " out of " + rules.length + "):");
+        for (String[] connection : necessary) {
+            System.out.println("  [" + connection[0] + ", " + connection[1] + "]");
+        }
+    }
+
+    public static void testComplexGraph() {
+        String[][] rules = {
+            {"BoxSign", "Monolith"},
+            {"BoxSign", "Conversion"},
+            {"BoxSign", "Preview"},
+            {"Monolith", "Conversion"},
+            {"Conversion", "Preview"},
+            {"Conversion", "Search"}
+        };
+        
+        System.out.println("PART 1 - All services connected: " + canAllServicesReachEachOther(rules));
+        
+        String[][] necessary = getNecessaryConnections(rules);
+        System.out.println("PART 2 - Necessary connections (" + necessary.length + " out of " + rules.length + "):");
+        for (String[] connection : necessary) {
+            System.out.println("  [" + connection[0] + ", " + connection[1] + "]");
+        }
+    }
+}
