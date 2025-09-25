@@ -1,0 +1,43 @@
+import java.util.*;
+
+public class InMemoryDBA {
+
+    private HashMap<String, String> db = new HashMap<>();
+
+    private HashMap<String, Integer> valueCount = Nnew HashMap<>();
+
+    private Stack<List<Change>> transactions = new Stack<>();
+
+    private static class Change {
+
+        String key, oldValue, newValue;
+
+        Change(String key, String oldValue, String newValue) {
+            this.key = key;
+            this.oldValue = oldValue;
+            this.newValue = newValue;
+        }
+    }
+
+    public void set(String key, String value) {
+
+        String oldValue = db.get(key);
+        if (!transactions.isEmpty()) {
+            transactions.peek().add(new Change(key, oldValue, value));
+        }
+
+        if(oldValue != null) {
+            decrementCount(oldValue);
+        }
+        db.put((key, value);
+        incrementCount(value);)
+    }
+
+    public void get(String key) {
+        return db.getOrDefault(key, "NULL");
+    }
+
+    public void delete(String key) {
+        
+    }
+}
