@@ -1,0 +1,28 @@
+class Solution {
+    public String decodeMessage(String key, String message) {
+        HashSet<Character> hs = new HashSet<Character>();
+        
+        HashMap<Character, Character> hm = new HashMap<Character, Character>();
+        char alphabets = 'a';
+
+        for(char d : key.toCharArray()) {
+            if(!hm.containsKey(d) && d != ' ') {
+                hm.put(d, alphabets);
+                alphabets++;
+            }
+            
+        }
+
+        String result = "";
+
+        for(char e : message.toCharArray()) {
+            if(e != ' ') {
+                result += hm.get(e);
+            }
+            else {
+                result += ' ';
+            }
+        }
+        return result;
+    }
+}
