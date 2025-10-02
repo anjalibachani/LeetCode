@@ -1,0 +1,21 @@
+class Solution {
+    public int missingNumber(int[] nums) {
+        int n = nums.length;
+        int i = 0;
+        int sum = 0;
+
+        while(i <= n) {
+            sum += i;
+            i++;
+        }
+
+        int j = 0;
+        int sum_num = 0;
+
+        while(j < n) {
+            sum_num += nums[j];
+            j++;
+        }
+        return sum - sum_num;
+    }
+}
